@@ -27,6 +27,7 @@ describe('checkout', () => {
         await expect(page.title()).resolves.toMatch('Checkout');
         await expect(page).toClick('#checkout-step-login [value=guest]');
         await expect(page).toClick('#onepage-guest-register-button');
+        console.log("billing Step");
 
         await expect(page).toFill('#billing-new-address-form [name="billing[firstname]"]', 'Jamy');
         await expect(page).toFill('#billing-new-address-form [name="billing[lastname]"]', 'Jones');
@@ -39,13 +40,16 @@ describe('checkout', () => {
 
         await expect(page).toClick('#opc-billing #billing-buttons-container button');
         await page.waitForSelector('#opc-shipping_method.active');
+        console.log("shipping Step");
         await page.waitForSelector('#s_method_flatrate_flatrate');
 
         await expect(page).toClick('#shipping-method-buttons-container button');
         await page.waitForSelector('#opc-payment.active');
+        console.log("payment Step");
 
         await expect(page).toClick('#payment-buttons-container button');
         await page.waitForSelector('#opc-review.active');
+        console.log("review Step");
 
         await expect(page).toClick('#review-buttons-container .btn-checkout');
         await page.screenshot({path: 'checkout_click.png'});
