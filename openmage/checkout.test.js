@@ -29,20 +29,26 @@ describe('checkout', () => {
         await expect(page).toClick('#onepage-guest-register-button');
         console.log("billing Step");
 
-        await expect(page).toFill('#billing-new-address-form [name="billing[firstname]"]', 'Jamy');
-        await expect(page).toFill('#billing-new-address-form [name="billing[lastname]"]', 'Jones');
-        await expect(page).toFill('#billing-new-address-form [name="billing[email]"]', 'test@example.com');
-        await expect(page).toFill('#billing-new-address-form [name="billing[street][]"]', 'Nowhere Street 42');
-        await expect(page).toFill('#billing-new-address-form [name="billing[city]"]', 'somewhere');
-        await expect(page).toSelect('#billing-new-address-form [name="billing[region_id]"]', 'Alaska');
-        await expect(page).toFill('#billing-new-address-form [name="billing[postcode]"]', '12345');
-        await expect(page).toFill('#billing-new-address-form [name="billing[telephone]"]', '0123456789');
+        await expect(page).toFillForm('#co-billing-form', {
+            'billing[firstname]': 'Jamy',
+            'billing[lastname]': 'Jones',
+            'billing[email]': 'test@example.com',
+            'billing[street][]': 'Nowhere Street 42',
+            'billing[city]': 'somewhere',
+            'billing[postcode]': '12345',
+            'billing[telephone]': '0123456789',
+        });
+        await expect(page).toSelect(
+            '#billing-new-address-form [name="billing[region_id]"]',
+            'Alaska'
+        );
 
         await expect(page).toClick('#opc-billing #billing-buttons-container button');
         await page.waitForSelector('#opc-shipping_method.active');
         console.log("shipping Step");
         await page.waitForSelector('#s_method_flatrate_flatrate');
-
+        await expect(page).toClick('#s_method_flatrate_flatrate');
+        
         await expect(page).toClick('#shipping-method-buttons-container button');
         await page.waitForSelector('#opc-payment.active');
         console.log("payment Step");
